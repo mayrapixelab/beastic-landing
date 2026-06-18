@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO primario -->
+  <title>BEASTIC — Suplementación de Alto Rendimiento | 3 Estaciones</title>
+  <meta name="description" content="BEASTIC es suplementación inspirada en la fuerza, velocidad y resistencia del reino salvaje. Proteína, Pre-Workout Óxido, Colágeno y Creatina. Hecho para quienes eligen dominar su entorno.">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="BEASTIC Supplements">
+  <meta name="theme-color" content="#0a0a0a">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="BEASTIC — Suplementación de Alto Rendimiento">
+  <meta property="og:description" content="Tres estaciones, una sola narrativa. Suplementación inspirada en la fuerza y resistencia del reino salvaje.">
+  <meta property="og:image" content="Productos%20destacados/Card%201.webp">
+  <meta property="og:locale" content="es_MX">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="BEASTIC — Suplementación de Alto Rendimiento">
+  <meta name="twitter:description" content="Tres estaciones, una sola narrativa. Suplementación inspirada en la fuerza y resistencia del reino salvaje.">
+  <meta name="twitter:image" content="Productos%20destacados/Card%201.webp">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="150x150" href="favicon-150x150.png">
+  <link rel="apple-touch-icon" href="favicon-150x150.png">
+
+  <!-- Preload recursos críticos -->
+  <link rel="preload" href="logotipo/Beastic-White.png" as="image">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ——— CURSOR CUSTOM para sección Poder Puro ——— -->
+  <div class="poder-cursor" id="poderCursor"></div>
+
+  <!-- ══════════════════════════════════════
+       NAVBAR
+  ══════════════════════════════════════ -->
+  <nav class="site-nav" id="siteNav" role="navigation" aria-label="Navegación principal">
+    <a class="nav-logo" href="#" aria-label="BEASTIC – Inicio">
+      <img src="logotipo/Beastic-White.png" alt="BEASTIC" class="nav-logo-img">
+    </a>
+    <ul class="nav-links">
+      <li><a href="#">Inicio</a></li>
+      <li><a href="#">Productos</a></li>
+      <li><a href="#">Historia</a></li>
+      <li><a href="#">Contacto</a></li>
+    </ul>
+    <a class="nav-cta" href="#">Comprar</a>
+    <button class="nav-hamburger" id="navHamburger" aria-label="Abrir menú" aria-expanded="false">
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+
+  <!-- Menú móvil -->
+  <div class="nav-mobile" id="navMobile" aria-hidden="true">
+    <ul class="nav-mobile-links">
+      <li><a href="#">Inicio</a></li>
+      <li><a href="#">Productos</a></li>
+      <li><a href="#">Historia</a></li>
+      <li><a href="#">Contacto</a></li>
+      <li><a href="#" class="nav-mobile-cta">Comprar</a></li>
+    </ul>
+  </div>
+
+  <main id="mainContent">
+
+  <!-- ══════════════════════════════════════
+       HERO — VIDEO SCRUBBING
+  ══════════════════════════════════════ -->
+  <section class="hero-section">
+    <div class="hero-sticky">
+
+      <video class="hero-video" muted playsinline preload="metadata" id="heroVideo">
+        <source src="VIDEO%20WEB%203%20ESTACIONES_web.mp4" type="video/mp4">
+        <source src="VIDEO%20WEB%203%20ESTACIONES.webm" type="video/webm">
+      </video>
+
+      <div class="hero-vignette"></div>
+
+      <div class="hero-slide slide-intro" id="slide0">
+        <p class="hero-eyebrow">Colección</p>
+        <h1 class="hero-title">BEASTIC</h1>
+        <p class="hero-subtitle">3 Estaciones</p>
+      </div>
+
+      <div class="hero-slide" id="slide1">
+        <p class="hero-season-label">Estación 01 — La Selva</p>
+        <h2 class="hero-season-title">Beast Protein</h2>
+      </div>
+
+      <div class="hero-slide" id="slide2">
+        <p class="hero-season-label">Estación 02 — La Montaña</p>
+        <h2 class="hero-season-title">Colágeno</h2>
+      </div>
+
+      <div class="hero-slide" id="slide3">
+        <p class="hero-season-label">Estación 03 — El Desierto</p>
+        <h2 class="hero-season-title">Beast Mode Óxido</h2>
+      </div>
+
+      <div class="scroll-hint" id="scrollHint">
+        <span>Scroll</span>
+        <div class="scroll-hint-line"></div>
+      </div>
+
+      <div class="hero-dots">
+        <div class="hero-dot active" id="dot0"></div>
+        <div class="hero-dot" id="dot1"></div>
+        <div class="hero-dot" id="dot2"></div>
+        <div class="hero-dot" id="dot3"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       PODER PURO — BLUR CURSOR
+  ══════════════════════════════════════ -->
+  <section class="poder-section" id="poderSection">
+    <div class="poder-inner">
+
+      <p class="poder-eyebrow">Beastic Supplements</p>
+
+      <!-- JS splitea cada letra en .ch para el blur individual -->
+      <h2 class="poder-title" id="poderTitle">PODER PURO</h2>
+      <h3 class="poder-subtitle" id="poderSubtitle">NATURALEZA INDOMABLE</h3>
+
+      <div class="poder-divider"></div>
+
+      <p class="poder-body">
+        Suplementación inspirada en la fuerza, velocidad y resistencia del reino salvaje.<br>
+        Creado para quienes no se conforman con sobrevivir,<br>
+        sino que eligen dominar su entorno.
+      </p>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SHOWCASE — DOMINA CADA REINO
+  ══════════════════════════════════════ -->
+  <section class="showcase-section" id="showcaseSection">
+
+    <p class="showcase-eyebrow">Domina cada reino</p>
+
+    <nav class="showcase-nav" id="showcaseNav">
+      <div class="stab-pill" id="stabPill"></div>
+      <button class="stab" data-index="0">Proteína</button>
+      <button class="stab" data-index="1">Óxido</button>
+      <button class="stab" data-index="2">Colágeno</button>
+      <button class="stab" data-index="3">Creatina</button>
+    </nav>
+
+    <div class="showcase-stage" id="showcaseStage">
+      <p class="showcase-ghost" aria-hidden="true">BEASTIC</p>
+      <div class="showcase-cards" id="showcaseCards"></div>
+      <div class="showcase-diamonds" aria-hidden="true"></div>
+    </div>
+
+  </section>
+
+  <!-- ══════════════════════════════════════
+       PRODUCTO DESTACADO
+  ══════════════════════════════════════ -->
+  <section class="highlight-section" id="highlightSection">
+
+    <!-- ——— LEFT: panel blanco ——— -->
+    <div class="hl-left">
+
+      <div class="hl-marquee">
+        <div class="hl-marq-track hl-marq-right" id="hlMarqTop"></div>
+      </div>
+
+      <div class="hl-stage">
+        <img class="hl-animal" src="Productos%20destacados/leon.png" alt="" aria-hidden="true">
+        <div class="hl-blob"></div>
+        <img class="hl-prod" src="Productos/BEAST-MODE-(PRE-WORKOUT)-350-g-MORAS.png" alt="Beast Mode Óxido">
+      </div>
+
+      <div class="hl-left-cta-wrap">
+        <a class="hl-left-cta" href="#">Ver detalles</a>
+      </div>
+
+      <div class="hl-marquee">
+        <div class="hl-marq-track hl-marq-left" id="hlMarqBot"></div>
+      </div>
+
+    </div>
+
+    <!-- ——— RIGHT: panel oscuro ——— -->
+    <div class="hl-right" id="hlRight">
+
+      <h2 class="hl-title">Óxido</h2>
+
+      <div class="hl-card-wrap">
+        <div class="hl-card" id="hlCard">
+          <img src="Productos%20destacados/Card%202.webp" alt="Beast Mode lifestyle">
+          <div class="hl-card-glare" id="hlCardGlare"></div>
+          <div class="hl-card-arrow" aria-hidden="true">↑</div>
+        </div>
+      </div>
+
+      <div class="hl-info-row">
+        <div class="hl-info-item">
+          <span class="hl-info-num">01</span>
+          <p class="hl-info-label">Forma de uso</p>
+          <p class="hl-info-text">Mezcla 1 scoop (8g) en 300ml de agua fría. Consumir 20–30 min antes de entrenar.</p>
+        </div>
+        <div class="hl-info-item">
+          <span class="hl-info-num">02</span>
+          <p class="hl-info-label">Ingredientes</p>
+          <p class="hl-info-text">Cafeína 280mg · Beta-Alanina · L-Citrulina Malato · Niacina · Vitamina B12</p>
+        </div>
+        <div class="hl-info-item">
+          <span class="hl-info-num">03</span>
+          <p class="hl-info-label">Beneficios</p>
+          <p class="hl-info-text">Energía explosiva · Foco mental · Resistencia muscular · 35 servicios</p>
+        </div>
+      </div>
+
+      <div class="hl-bottom">
+        <img class="hl-logo" src="Productos%20destacados/logo-producto.png" alt="Beast Mode">
+        <a class="hl-cta" href="#">Ver detalles</a>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ══════════════════════════════════════
+       CTA — LA HISTORIA (Spotlight mouse)
+  ══════════════════════════════════════ -->
+  <section class="cta-section" id="ctaSection">
+
+    <div class="cta-bg">
+      <img class="cta-bg-img" src="Productos%20destacados/Card%201.webp" alt="">
+      <div class="cta-spotlight" id="ctaSpotlight"></div>
+    </div>
+
+    <div class="cta-inner">
+      <p class="cta-eyebrow">La historia</p>
+      <h2 class="cta-heading">
+        <span class="cta-line-fill">La naturaleza</span>
+        <span class="cta-line-stroke">como referente</span>
+      </h2>
+      <p class="cta-body">
+        Tres estaciones, una sola narrativa. BEASTIC explora la transformación
+        constante del entorno natural y su influencia en la forma, el color y el movimiento.
+      </p>
+      <a class="cta-discover" href="#">
+        <span>Descubrir</span>
+        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 10h12M12 6l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+
+  </section>
+
+  <!-- ══════════════════════════════════════
+       PDP MODAL
+  ══════════════════════════════════════ -->
+  <div class="pdp-overlay" id="pdpOverlay">
+    <div class="pdp-modal" id="pdpModal">
+
+      <button class="pdp-close" id="pdpClose" aria-label="Cerrar">
+        <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="1" y1="1" x2="13" y2="13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          <line x1="13" y1="1" x2="1" y2="13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <!-- ——— LEFT: info ——— -->
+      <div class="pdp-left">
+        <img class="pdp-brand-logo" src="Productos%20destacados/logo-producto.png" alt="Beast Mode">
+        <h2 class="pdp-name">Óxido</h2>
+        <p class="pdp-type">Pre Workout en Polvo</p>
+        <p class="pdp-claim">Promueve el desarrollo muscular</p>
+
+        <div class="pdp-specs">
+          <div class="pdp-spec">
+            <div class="pdp-spec-ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="13" r="8"/><polyline points="12 9 12 13 15 15"/>
+                <line x1="9" y1="3" x2="15" y2="3"/><line x1="12" y1="3" x2="12" y2="5"/>
+              </svg>
+            </div>
+            <span class="pdp-spec-label">Pre<br>Entrenamiento</span>
+          </div>
+          <div class="pdp-spec">
+            <div class="pdp-spec-ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                <circle cx="12" cy="4" r="2.5"/><circle cx="4" cy="19" r="2.5"/><circle cx="20" cy="19" r="2.5"/>
+                <line x1="12" y1="6.5" x2="4" y2="16.5"/><line x1="12" y1="6.5" x2="20" y2="16.5"/>
+                <line x1="6.5" y1="19" x2="17.5" y2="19"/>
+              </svg>
+            </div>
+            <span class="pdp-spec-label">Fórmula<br>Patentada</span>
+          </div>
+          <div class="pdp-spec">
+            <div class="pdp-spec-ico is-badge">+35</div>
+            <span class="pdp-spec-label">Servicios</span>
+          </div>
+          <div class="pdp-spec">
+            <div class="pdp-spec-ico is-badge is-badge--sm">280<small>mg</small></div>
+            <span class="pdp-spec-label">Cafeína</span>
+          </div>
+        </div>
+
+        <button class="pdp-add-cart" id="pdpAddCart">Añadir al Carrito</button>
+      </div>
+
+      <!-- ——— RIGHT: imagen producto ——— -->
+      <div class="pdp-right">
+        <div class="pdp-right-blob"></div>
+        <img class="pdp-hero-img"
+             src="Productos/BEAST-MODE-(PRE-WORKOUT)-350-g-MORAS.png"
+             alt="Beast Mode Óxido">
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════ -->
+  <footer class="site-footer" id="siteFooter">
+
+    <div class="footer-top">
+      <div class="footer-col">
+        <p class="footer-col-title">Navegación</p>
+        <ul class="footer-links">
+          <li><a href="#">Inicio</a></li>
+          <li><a href="#">Productos</a></li>
+          <li><a href="#">Nosotros</a></li>
+          <li><a href="#">Contacto</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Línea BEASTIC</p>
+        <ul class="footer-links">
+          <li><a href="#">Proteína</a></li>
+          <li><a href="#">Óxido Pre Workout</a></li>
+          <li><a href="#">Colágeno</a></li>
+          <li><a href="#">Creatina</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Soporte</p>
+        <ul class="footer-links">
+          <li><a href="#">Envíos</a></li>
+          <li><a href="#">Devoluciones</a></li>
+          <li><a href="#">Distribuidores</a></li>
+          <li><a href="#">Preguntas frecuentes</a></li>
+        </ul>
+      </div>
+      <div class="footer-col footer-col--wide">
+        <p class="footer-col-title">Beastic</p>
+        <p class="footer-desc">
+          Suplementación inspirada en la fuerza, velocidad y resistencia del reino salvaje. Creada para quienes eligen dominar su entorno.
+        </p>
+        <div class="footer-social">
+          <a href="#" class="footer-social-link" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none"/>
+            </svg>
+          </a>
+          <a href="#" class="footer-social-link" aria-label="TikTok">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/>
+            </svg>
+          </a>
+          <a href="#" class="footer-social-link" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Wordmark gigante full-width -->
+    <div class="footer-wordmark-wrap">
+      <p class="footer-wordmark" id="footerWordmark">BEASTIC</p>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-copy">©2026 BEASTIC · Todos los derechos reservados.</p>
+      <div class="footer-legal">
+        <a href="#">Política de Privacidad</a>
+        <a href="#">Términos de Servicio</a>
+      </div>
+    </div>
+
+  </footer>
+
+  </main><!-- /#mainContent -->
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
