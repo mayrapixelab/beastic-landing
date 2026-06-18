@@ -49,18 +49,8 @@ if (isMobile) {
   video.load()
   video.play().catch(() => {})
 } else {
-  // Desktop: esperar primer frame antes de pausar
-  const pauseOnReady = () => {
-    video.pause()
-    video.currentTime = 0
-  }
-  if (video.readyState >= 2) {
-    pauseOnReady()
-  } else {
-    video.addEventListener('canplay', pauseOnReady, { once: true })
-    // play() activa buffering en browsers que no cargan sin interacción
-    video.play().then(() => video.pause()).catch(() => {})
-  }
+  // Desktop: preload=auto garantiza que el frame 0 esté listo
+  video.pause()
 
   ScrollTrigger.create({
     trigger: '.hero-section',
