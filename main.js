@@ -49,8 +49,14 @@ if (isMobile) {
   video.load()
   video.play().catch(() => {})
 } else {
-  // Desktop: preload=auto garantiza que el frame 0 esté listo
-  video.pause()
+  // Clamp to 0.1s so we never land on the black leader frames at currentTime=0
+  const MIN_T = 0.1
+
+  function showFirstFrame() {
+    try { video.currentTime = MIN_T } catch (e) {}
+  }
+  if (video.readyState >= 2) showFirstFrame()
+  else video.addEventListener('loadeddata', showFirstFrame, { once: true })
 
   ScrollTrigger.create({
     trigger: '.hero-section',
@@ -60,7 +66,7 @@ if (isMobile) {
     onUpdate(self) {
       const p = self.progress
       if (video.readyState >= 2 && video.duration)
-        video.currentTime = p * video.duration
+        video.currentTime = Math.max(MIN_T, p * video.duration)
       slides.forEach((el, i) => { el.style.opacity = slideOpacity(i, p) })
       let active = 0
       BREAKPOINTS.forEach((bp, i) => { if (p >= bp.start) active = i })
