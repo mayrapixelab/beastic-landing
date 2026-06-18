@@ -8,18 +8,22 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Deploy via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: /public_html/
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/.claude/**
-            **/node_modules/**
+      - name: Deploy via rsync over SSH
+        env:
+          SSHPASS: ${{ secrets.SSH_PASSWORD }}
+        run: |
+          sudo apt-get install -y sshpass
+          sshpass -e rsync -avz --delete \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='.claude/' \
+            --exclude='*.mp4' \
+            --exclude='*.webm' \
+            --exclude='.DS_Store' \
+            --exclude='Thumbs.db' \
+            --exclude='*.log' \
+            --exclude='*.zip' \
+            -e "ssh -o StrictHostKeyChecking=no -p 22" \
+            ./ u342107212@82.29.154.172:/home/u342107212/htdocs/mediumblue-beaver-786924.hostingersite.com/
