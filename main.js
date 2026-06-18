@@ -517,19 +517,22 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape' && pdpOverlay
   const bgImg      = document.querySelector('.cta-bg-img')
   if (!section || !spotlight) return
 
-  let mx = 50, my = 50   // target mouse %
-  let cx = 50, cy = 50   // current lerped %
-  let px = 0,  py = 0    // parallax offset
+  // Cursor personalizado
+  const ctaCursor = document.createElement('div')
+  ctaCursor.className = 'cta-cursor'
+  document.body.appendChild(ctaCursor)
+
+  let mx = 50, my = 50
+  let cx = 50, cy = 50
+  let px = 0,  py = 0
   const spotR = { value: 0 }
 
-  // Smooth lerp — runs every frame via GSAP ticker
   gsap.ticker.add(() => {
     cx += (mx - cx) * 0.07
     cy += (my - cy) * 0.07
     spotlight.style.setProperty('--mx', cx.toFixed(2) + '%')
     spotlight.style.setProperty('--my', cy.toFixed(2) + '%')
 
-    // Subtle parallax on background image
     const tx = (mx - 50) * -0.014
     const ty = (my - 50) * -0.014
     px += (tx - px) * 0.05
@@ -541,10 +544,11 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape' && pdpOverlay
     const r = section.getBoundingClientRect()
     mx = (e.clientX - r.left) / r.width  * 100
     my = (e.clientY - r.top)  / r.height * 100
+    gsap.to(ctaCursor, { x: e.clientX, y: e.clientY, duration: 0.12, ease: 'power2.out' })
   })
 
-  // Expand spotlight on enter
   section.addEventListener('mouseenter', () => {
+    gsap.to(ctaCursor, { opacity: 1, duration: 0.3 })
     gsap.to(spotR, {
       value: 300,
       duration: 0.65,
@@ -553,8 +557,8 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape' && pdpOverlay
     })
   })
 
-  // Collapse on leave
   section.addEventListener('mouseleave', () => {
+    gsap.to(ctaCursor, { opacity: 0, duration: 0.25 })
     gsap.to(spotR, {
       value: 0,
       duration: 0.85,

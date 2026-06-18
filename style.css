@@ -948,17 +948,45 @@ body {
   color: rgba(255,255,255,0.42);
 }
 
-/* Cursor rojo para panel derecho */
+/* Cursor anillo para panel derecho (highlight) */
 .hl-cursor {
   position: fixed;
-  width: 9px;
-  height: 9px;
-  background: #cc2020;
+  width: 38px; height: 38px;
+  border: 1.5px solid rgba(204,32,32,0.8);
   border-radius: 50%;
   pointer-events: none;
   z-index: 9998;
   transform: translate(-50%, -50%);
   opacity: 0;
+  transition: width 0.25s, height 0.25s;
+}
+.hl-cursor::after {
+  content: '';
+  position: absolute;
+  inset: 0; margin: auto;
+  width: 6px; height: 6px;
+  background: #cc2020;
+  border-radius: 50%;
+}
+
+/* Cursor anillo para sección CTA */
+.cta-cursor {
+  position: fixed;
+  width: 42px; height: 42px;
+  border: 1.5px solid rgba(255,255,255,0.7);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+}
+.cta-cursor::after {
+  content: '';
+  position: absolute;
+  inset: 0; margin: auto;
+  width: 5px; height: 5px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 50%;
 }
 
 
