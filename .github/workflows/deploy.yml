@@ -15,8 +15,6 @@ jobs:
           SSHPASS: ${{ secrets.SSH_PASSWORD }}
         run: |
           sudo apt-get install -y sshpass
-          sshpass -e ssh -o StrictHostKeyChecking=no -p 65002 u342107212@82.29.154.172 \
-            "mkdir -p /home/u342107212/htdocs/mediumblue-beaver-786924.hostingersite.com"
           sshpass -e rsync -avz --delete \
             --exclude='.git/' \
             --exclude='.github/' \
@@ -28,4 +26,4 @@ jobs:
             --exclude='*.log' \
             --exclude='*.zip' \
             -e "ssh -o StrictHostKeyChecking=no -p 65002" \
-            ./ u342107212@82.29.154.172:/home/u342107212/htdocs/mediumblue-beaver-786924.hostingersite.com/
+            ./ u342107212@82.29.154.172:/home/u342107212/public_html/
