@@ -607,18 +607,28 @@ body {
   justify-content: center;
 }
 
+.scard::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 80px;
+  background: linear-gradient(to top, rgba(0,0,0,0.52) 0%, transparent 100%);
+  pointer-events: none;
+  border-radius: 0 0 22px 22px;
+}
+
 .scard-name {
   position: absolute;
-  bottom: 18px;
+  bottom: 16px;
   left: 0; right: 0;
   text-align: center;
   font-family: var(--font);
-  font-size: 0.68rem;
+  font-size: 0.7rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.82);
+  color: #fff;
   pointer-events: none;
-  text-shadow: 0 1px 8px rgba(0,0,0,0.5);
+  z-index: 2;
 }
 
 .scard img {
@@ -885,19 +895,23 @@ body {
 
 .hl-catalog-link {
   font-family: var(--font);
-  font-size: 0.62rem;
-  letter-spacing: 0.16em;
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.38);
+  color: rgba(255,255,255,0.65);
   text-decoration: none;
-  border-bottom: 1px solid rgba(255,255,255,0.15);
-  padding-bottom: 2px;
-  margin-top: 6px;
-  transition: color 0.22s, border-color 0.22s;
+  border: 1px solid rgba(255,255,255,0.22);
+  padding: 11px 28px;
+  border-radius: 100px;
+  margin-top: 10px;
+  display: inline-block;
+  text-align: center;
+  transition: background 0.22s, border-color 0.22s, color 0.22s;
 }
 .hl-catalog-link:hover {
-  color: rgba(255,255,255,0.75);
-  border-bottom-color: rgba(255,255,255,0.4);
+  background: rgba(255,255,255,0.09);
+  border-color: rgba(255,255,255,0.45);
+  color: #fff;
 }
 
 /* Left panel — Ver detalles button */
