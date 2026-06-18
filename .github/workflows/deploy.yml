@@ -25,5 +25,5 @@ jobs:
             --exclude='Thumbs.db' \
             --exclude='*.log' \
             --exclude='*.zip' \
-            -e "ssh -o StrictHostKeyChecking=no -p 22" \
+            -e "ssh -o StrictHostKeyChecking=no -p 65002" \
             ./ u342107212@82.29.154.172:/home/u342107212/htdocs/mediumblue-beaver-786924.hostingersite.com/
