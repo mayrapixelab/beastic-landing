@@ -42,14 +42,26 @@ gsap.to(scrollHint, { opacity: 1, duration: 1.2, delay: 1, ease: 'power2.out' })
 
 if (isMobile) {
   // Móvil: autoplay loop, sin scroll scrubbing
-  video.muted      = true
-  video.loop       = true
+  video.muted       = true
+  video.loop        = true
   video.playsInline = true
-  video.autoplay   = true
+  video.autoplay    = true
+  video.load()
   video.play().catch(() => {})
 } else {
-  // Desktop: scroll scrubbing
-  video.pause()
+  // Desktop: esperar primer frame antes de pausar
+  const pauseOnReady = () => {
+    video.pause()
+    video.currentTime = 0
+  }
+  if (video.readyState >= 2) {
+    pauseOnReady()
+  } else {
+    video.addEventListener('canplay', pauseOnReady, { once: true })
+    // play() activa buffering en browsers que no cargan sin interacción
+    video.play().then(() => video.pause()).catch(() => {})
+  }
+
   ScrollTrigger.create({
     trigger: '.hero-section',
     start: 'top top',
