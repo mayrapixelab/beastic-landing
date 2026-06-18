@@ -323,6 +323,7 @@ const hlCta      = document.querySelector('.hl-cta')
 const hlCursorEl = document.createElement('div')
 hlCursorEl.className = 'hl-cursor'
 document.body.appendChild(hlCursorEl)
+gsap.set(hlCursorEl, { xPercent: -50, yPercent: -50 })
 
 hlRight.addEventListener('mouseenter', () =>
   gsap.to(hlCursorEl, { opacity: 1, duration: 0.3 })
@@ -521,6 +522,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape' && pdpOverlay
   const ctaCursor = document.createElement('div')
   ctaCursor.className = 'cta-cursor'
   document.body.appendChild(ctaCursor)
+  gsap.set(ctaCursor, { xPercent: -50, yPercent: -50 })
 
   let mx = 50, my = 50
   let cx = 50, cy = 50
