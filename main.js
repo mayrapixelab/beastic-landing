@@ -192,6 +192,7 @@ gsap.from(['.poder-eyebrow', '.poder-title', '.poder-subtitle', '.poder-divider'
 const SC_PRODUCTS = [
   {
     label:  'Proteína',
+    name:   'Beast Pro',
     img:    'Productos/BEAST%20PRO%202.7%20KG%20MOKA_f.png',
     card:   '#1e6fd4',
     pill:   '#1e6fd4',
@@ -199,6 +200,7 @@ const SC_PRODUCTS = [
   },
   {
     label:  'Óxido',
+    name:   'Beast Mode Óxido',
     img:    'Productos/BEAST-MODE-(PRE-WORKOUT)-350-g-MORAS.png',
     card:   '#cc2020',
     pill:   '#cc2020',
@@ -206,7 +208,7 @@ const SC_PRODUCTS = [
   },
   {
     label:  'Colágeno',
-    // TODO: reemplazar con Productos/Beastic---Colageno.png cuando esté disponible
+    name:   'Colágeno',
     img:    'Productos/BEAST%20ISOLATE%202.2%20kg%20HELADO%20DE%20VAINILLA_f.png',
     card:   '#7788bb',
     pill:   '#6677aa',
@@ -214,6 +216,7 @@ const SC_PRODUCTS = [
   },
   {
     label:  'Creatina',
+    name:   'Creatina',
     img:    'Productos/CREATINA%20350g_f.png',
     card:   '#1a8c3a',
     pill:   '#1a8c3a',
@@ -235,7 +238,7 @@ SC_PRODUCTS.forEach((p, i) => {
   el.dataset.index = i
   el.style.setProperty('--card-bg',     p.card)
   el.style.setProperty('--card-shadow', p.shadow)
-  el.innerHTML = `<img src="${p.img}" alt="${p.label}" draggable="false">`
+  el.innerHTML = `<img src="${p.img}" alt="${p.label}" draggable="false"><span class="scard-name">${p.name}</span>`
   el.addEventListener('click', () => { if (i !== scActive) scSwitchTo(i) })
   scCardsEl.appendChild(el)
 })
