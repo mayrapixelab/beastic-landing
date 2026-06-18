@@ -1495,10 +1495,15 @@ body {
   .showcase-stage   { height: 360px; }
   .stab             { padding: 10px 14px; font-size: 0.55rem; }
 
+  /* Hero mobile: sin scroll scrubbing */
+  .hero-section      { height: 100vh; }
+
   /* Highlight */
   .highlight-section { flex-direction: column; height: auto; }
   .hl-left, .hl-right{ width: 100%; }
-  .hl-left           { height: 60vw; min-height: 260px; }
+  .hl-left           { height: auto; min-height: 420px; }
+  .hl-stage          { min-height: 220px; }
+  .hl-prod           { width: 48%; }
   .hl-right          { padding: 8vw; gap: 5vw; }
   .hl-info-row       { flex-direction: column; gap: 16px; }
   .hl-title          { font-size: clamp(64px, 18vw, 160px); }

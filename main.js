@@ -15,15 +15,12 @@ gsap.ticker.lagSmoothing(0)
 // ═══════════════════════════════════
 // HERO — VIDEO SCRUBBING
 // ═══════════════════════════════════
-const video = document.getElementById('heroVideo')
-video.pause()
-
+const video      = document.getElementById('heroVideo')
 const slides     = [0,1,2,3].map(i => document.getElementById('slide' + i))
 const dots       = [0,1,2,3].map(i => document.getElementById('dot'   + i))
 const scrollHint = document.getElementById('scrollHint')
+const isMobile   = window.matchMedia('(max-width: 768px)').matches
 
-// Ventanas de visibilidad por slide (progress 0–1)
-// Basado en el video real: Selva 0-30% | Montaña 30-70% | Desierto 70-100%
 const BREAKPOINTS = [
   { start: 0,    end: 0.15 },
   { start: 0.05, end: 0.32 },
@@ -40,37 +37,37 @@ function slideOpacity(i, p) {
   return 1
 }
 
-// Slide 0 visible al inicio
 slides[0].style.opacity = 1
-
-// Scroll hint entra con delay
 gsap.to(scrollHint, { opacity: 1, duration: 1.2, delay: 1, ease: 'power2.out' })
 
-ScrollTrigger.create({
-  trigger: '.hero-section',
-  start: 'top top',
-  end: 'bottom bottom',
-  scrub: true,
-  onUpdate(self) {
-    const p = self.progress
-
-    // Scrub del video
-    if (video.readyState >= 2 && video.duration)
-      video.currentTime = p * video.duration
-
-    // Opacidades de slides
-    slides.forEach((el, i) => { el.style.opacity = slideOpacity(i, p) })
-
-    // Dot activo
-    let active = 0
-    BREAKPOINTS.forEach((bp, i) => { if (p >= bp.start) active = i })
-    dots.forEach((d, i) => d.classList.toggle('active', i === active))
-
-    // Ocultar scroll hint al empezar
-    if (p > 0.03)
-      scrollHint.style.opacity = Math.max(0, 1 - (p - 0.03) / 0.05).toString()
-  },
-})
+if (isMobile) {
+  // Móvil: autoplay loop, sin scroll scrubbing
+  video.muted      = true
+  video.loop       = true
+  video.playsInline = true
+  video.autoplay   = true
+  video.play().catch(() => {})
+} else {
+  // Desktop: scroll scrubbing
+  video.pause()
+  ScrollTrigger.create({
+    trigger: '.hero-section',
+    start: 'top top',
+    end: 'bottom bottom',
+    scrub: true,
+    onUpdate(self) {
+      const p = self.progress
+      if (video.readyState >= 2 && video.duration)
+        video.currentTime = p * video.duration
+      slides.forEach((el, i) => { el.style.opacity = slideOpacity(i, p) })
+      let active = 0
+      BREAKPOINTS.forEach((bp, i) => { if (p >= bp.start) active = i })
+      dots.forEach((d, i) => d.classList.toggle('active', i === active))
+      if (p > 0.03)
+        scrollHint.style.opacity = Math.max(0, 1 - (p - 0.03) / 0.05).toString()
+    },
+  })
+}
 
 
 // ═══════════════════════════════════
