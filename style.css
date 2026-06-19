@@ -1568,9 +1568,6 @@ body {
   .showcase-stage   { height: 360px; }
   .stab             { padding: 10px 14px; font-size: 0.55rem; }
 
-  /* Hero mobile: sin scroll scrubbing */
-  .hero-section      { height: 100vh; }
-
   /* Highlight */
   .highlight-section { flex-direction: column; height: auto; }
   .hl-left, .hl-right{ width: 100%; }
