@@ -40,42 +40,40 @@ function slideOpacity(i, p) {
 slides[0].style.opacity = 1
 gsap.to(scrollHint, { opacity: 1, duration: 1.2, delay: 1, ease: 'power2.out' })
 
-if (isMobile) {
-  // Móvil: autoplay loop, sin scroll scrubbing
-  video.muted       = true
-  video.loop        = true
-  video.playsInline = true
-  video.autoplay    = true
-  video.load()
-  video.play().catch(() => {})
-} else {
-  // Clamp to 0.1s so we never land on the black leader frames at currentTime=0
-  const MIN_T = 0.1
+const MIN_T = 0.1
 
-  function showFirstFrame() {
-    try { video.currentTime = MIN_T } catch (e) {}
-  }
+function showFirstFrame() {
+  try { video.currentTime = MIN_T } catch (e) {}
+}
+
+if (isMobile) {
+  // iOS bloquea el seeking hasta que el video haya "jugado" una vez
+  video.play().then(() => {
+    video.pause()
+    showFirstFrame()
+  }).catch(() => showFirstFrame())
+} else {
   if (video.readyState >= 2) showFirstFrame()
   else video.addEventListener('loadeddata', showFirstFrame, { once: true })
-
-  ScrollTrigger.create({
-    trigger: '.hero-section',
-    start: 'top top',
-    end: 'bottom bottom',
-    scrub: true,
-    onUpdate(self) {
-      const p = self.progress
-      if (video.readyState >= 2 && video.duration)
-        video.currentTime = Math.max(MIN_T, p * video.duration)
-      slides.forEach((el, i) => { el.style.opacity = slideOpacity(i, p) })
-      let active = 0
-      BREAKPOINTS.forEach((bp, i) => { if (p >= bp.start) active = i })
-      dots.forEach((d, i) => d.classList.toggle('active', i === active))
-      if (p > 0.03)
-        scrollHint.style.opacity = Math.max(0, 1 - (p - 0.03) / 0.05).toString()
-    },
-  })
 }
+
+ScrollTrigger.create({
+  trigger: '.hero-section',
+  start: 'top top',
+  end: 'bottom bottom',
+  scrub: true,
+  onUpdate(self) {
+    const p = self.progress
+    if (video.readyState >= 2 && video.duration)
+      video.currentTime = Math.max(MIN_T, p * video.duration)
+    slides.forEach((el, i) => { el.style.opacity = slideOpacity(i, p) })
+    let active = 0
+    BREAKPOINTS.forEach((bp, i) => { if (p >= bp.start) active = i })
+    dots.forEach((d, i) => d.classList.toggle('active', i === active))
+    if (p > 0.03)
+      scrollHint.style.opacity = Math.max(0, 1 - (p - 0.03) / 0.05).toString()
+  },
+})
 
 
 // ═══════════════════════════════════
