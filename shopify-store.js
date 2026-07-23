@@ -432,39 +432,18 @@
     qty: 1,
   };
 
-  async function openProductDetail(productId) {
-    var modal = document.getElementById('bstPdpModal');
-    if (!modal) return;
+  async function loadProductFromUrl() {
+    var params = new URLSearchParams(window.location.search);
+    var handle = params.get('h');
+    if (!handle) return;
 
-    // Close any open drawers / modals first
-    document.querySelectorAll('.bst-drawer, .bst-modal').forEach(function (el) { el.classList.remove('is-open'); });
-    var ov = document.getElementById('bstOverlay');
-    if (ov) ov.classList.remove('is-visible');
-
-    modal.classList.add('is-open');
-    document.body.style.overflow = 'hidden';
-
-    // Reset to loading skeleton
-    var nameEl = document.getElementById('bstPdpName');
-    var tagEl  = document.getElementById('bstPdpTagline');
-    var mainImg = document.getElementById('bstPdpMainImg');
-    if (nameEl) nameEl.textContent = '';
-    if (tagEl)  tagEl.textContent = 'Cargando…';
-    if (mainImg) { mainImg.src = ''; mainImg.classList.add('is-loading'); }
-    var el;
-    el = document.getElementById('bstPdpThumbs');   if (el) el.innerHTML = '';
-    el = document.getElementById('bstPdpOptions');  if (el) el.innerHTML = '';
-    el = document.getElementById('bstPdpBenefits'); if (el) el.innerHTML = '';
-    el = document.getElementById('bstTabDesc');     if (el) el.innerHTML = '<div class="bst-pdp-skel-block"></div><div class="bst-pdp-skel-block bst-pdp-skel-block--sm"></div>';
-    el = document.getElementById('bstTabNutri');    if (el) el.innerHTML = '';
-    el = document.getElementById('bstTabUso');      if (el) el.innerHTML = '';
-    // Reset active tab
-    document.querySelectorAll('.bst-pdp-tab').forEach(function(t, i){ t.classList.toggle('is-active', i === 0); });
-    document.querySelectorAll('.bst-pdp-tab-panel').forEach(function(p, i){ p.classList.toggle('is-active', i === 0); });
+    var heroTitle   = document.getElementById('bstPpHeroTitle');
+    var heroEyebrow = document.getElementById('bstPpHeroEyebrow');
+    var heroImg     = document.getElementById('bstPpHeroImg');
 
     try {
       var d = await gql([
-        'query($id:ID!){product(id:$id){',
+        'query($h:String!){product(handle:$h){',
         '  id title handle descriptionHtml',
         '  images(first:8){edges{node{url altText}}}',
         '  priceRange{minVariantPrice{amount currencyCode}maxVariantPrice{amount currencyCode}}',
@@ -476,22 +455,64 @@
         '    selectedOptions{name value}',
         '  }}}',
         '}}',
-      ].join(''), { id: productId });
+      ].join(''), { h: handle });
 
       var product = d.product;
-      if (!product) { closePdp(); showToast('Producto no encontrado', 'error'); return; }
-      renderProductDetail(product, getEnrich(product.title));
+      if (!product) {
+        if (heroTitle) heroTitle.textContent = 'Producto no encontrado';
+        return;
+      }
+
+      document.title = product.title + ' — BEASTIC';
+      if (heroTitle)   heroTitle.textContent   = product.title;
+      var enrich = getEnrich(product.title);
+      if (heroEyebrow) heroEyebrow.textContent = enrich ? enrich.tagline : 'Suplemento BEASTIC';
+      if (heroImg && product.images.edges.length) {
+        heroImg.src = product.images.edges[0].node.url;
+        heroImg.style.display = '';
+      }
+
+      renderProductDetail(product, enrich);
+      loadRelatedProducts(handle);
     } catch (e) {
-      console.error('[BST pdp]', e);
-      closePdp();
-      showToast('Error al cargar el producto', 'error');
+      console.error('[BST] product page error:', e);
+      if (heroTitle) heroTitle.textContent = 'Error al cargar el producto';
     }
   }
 
-  function closePdp() {
-    var modal = document.getElementById('bstPdpModal');
-    if (modal) modal.classList.remove('is-open');
-    document.body.style.overflow = '';
+  async function loadRelatedProducts(currentHandle) {
+    var grid = document.getElementById('bstRelatedGrid');
+    if (!grid) return;
+    try {
+      var d = await gql([
+        'query{products(first:9){edges{node{',
+        '  title handle',
+        '  images(first:1){edges{node{url altText}}}',
+        '  priceRange{minVariantPrice{amount currencyCode}}',
+        '}}}}',
+      ].join(''));
+      var products = d.products.edges
+        .map(function (e) { return e.node; })
+        .filter(function (p) { return p.handle !== currentHandle; })
+        .slice(0, 4);
+      if (!products.length) return;
+      grid.innerHTML = products.map(function (p) {
+        var imgNode = p.images.edges.length ? p.images.edges[0].node : null;
+        var imgSrc  = imgNode ? imgNode.url : '';
+        var imgAlt  = imgNode ? (imgNode.altText || p.title) : p.title;
+        var amount  = p.priceRange.minVariantPrice.amount;
+        var price   = '$' + parseFloat(amount).toFixed(2).replace(/\.00$/, '');
+        return [
+          '<a class="bst-related-card" href="producto?h=' + encodeURIComponent(p.handle) + '">',
+            imgSrc ? '<img src="' + imgSrc + '" alt="' + imgAlt.replace(/"/g, '&quot;') + '" loading="lazy">' : '',
+            '<p class="bst-related-name">' + p.title + '</p>',
+            '<p class="bst-related-price">' + price + '</p>',
+          '</a>',
+        ].join('');
+      }).join('');
+    } catch (e) {
+      console.error('[BST] related products error:', e);
+    }
   }
 
   function renderProductDetail(product, enrich) {
@@ -750,7 +771,7 @@
     document.querySelectorAll('.bst-drawer, .bst-modal').forEach(function (el) { el.classList.remove('is-open'); });
     var ov = document.getElementById('bstOverlay');
     if (ov) ov.classList.remove('is-visible');
-    closePdp();
+    document.body.style.overflow = '';
   }
 
   /* ── Cart render ── */
@@ -937,67 +958,6 @@
         '</div>',
       '</div>',
 
-      /* Product detail modal */
-      '<div id="bstPdpModal" class="bst-pdp" role="dialog" aria-modal="true" aria-label="Detalle de producto">',
-        '<div class="bst-pdp-backdrop" data-close="all"></div>',
-        '<div class="bst-pdp-panel">',
-          '<button class="bst-pdp-close-btn" data-close="all" aria-label="Cerrar"><i class="ri-close-line"></i></button>',
-          '<div class="bst-pdp-grid">',
-
-            /* Gallery */
-            '<div class="bst-pdp-gallery">',
-              '<div class="bst-pdp-main-wrap">',
-                '<img id="bstPdpMainImg" src="" alt="" class="bst-pdp-main-img">',
-                '<button class="bst-pdp-arr bst-pdp-arr--prev" id="bstPdpPrev"><i class="ri-arrow-left-s-line"></i></button>',
-                '<button class="bst-pdp-arr bst-pdp-arr--next" id="bstPdpNext"><i class="ri-arrow-right-s-line"></i></button>',
-              '</div>',
-              '<div class="bst-pdp-thumbs" id="bstPdpThumbs"></div>',
-            '</div>',
-
-            /* Info */
-            '<div class="bst-pdp-info">',
-              '<p class="bst-pdp-tagline" id="bstPdpTagline"></p>',
-              '<h2 class="bst-pdp-name" id="bstPdpName"></h2>',
-              '<p class="bst-pdp-serving" id="bstPdpServing"></p>',
-              '<div class="bst-pdp-price-row">',
-                '<span class="bst-pdp-price" id="bstPdpPrice"></span>',
-                '<span class="bst-pdp-compare" id="bstPdpCompare"></span>',
-              '</div>',
-              '<div id="bstPdpOptions" class="bst-pdp-options-wrap"></div>',
-              '<div class="bst-pdp-actions">',
-                '<div class="bst-pdp-qty-wrap">',
-                  '<button class="bst-pdp-qty-btn" id="bstPdpQtyDec"><i class="ri-subtract-line"></i></button>',
-                  '<span class="bst-pdp-qty-val" id="bstPdpQtyVal">1</span>',
-                  '<button class="bst-pdp-qty-btn" id="bstPdpQtyInc"><i class="ri-add-line"></i></button>',
-                '</div>',
-                '<button class="bst-pdp-atc" id="bstPdpAtc">',
-                  '<i class="ri-shopping-cart-2-line"></i><span>Agregar al carrito</span>',
-                '</button>',
-                '<button class="bst-pdp-wl" id="bstPdpWl" aria-label="Lista de deseos"><i class="ri-heart-line"></i></button>',
-              '</div>',
-              '<div class="bst-pdp-trust">',
-                '<div class="bst-trust-item"><i class="ri-truck-line"></i><span>Envío a todo México</span></div>',
-                '<div class="bst-trust-item"><i class="ri-shield-check-line"></i><span>Garantía de calidad</span></div>',
-                '<div class="bst-trust-item"><i class="ri-secure-payment-line"></i><span>Pago 100% seguro</span></div>',
-              '</div>',
-              '<div id="bstPdpBenefits" class="bst-pdp-benefits-list"></div>',
-              '<div class="bst-pdp-tabs-wrap">',
-                '<div class="bst-pdp-tab-nav">',
-                  '<button class="bst-pdp-tab is-active" data-pdp-tab="desc">Descripción</button>',
-                  '<button class="bst-pdp-tab" data-pdp-tab="nutri">Nutrición</button>',
-                  '<button class="bst-pdp-tab" data-pdp-tab="uso">Cómo usar</button>',
-                '</div>',
-                '<div class="bst-pdp-tab-panels">',
-                  '<div id="bstTabDesc" class="bst-pdp-tab-panel is-active"></div>',
-                  '<div id="bstTabNutri" class="bst-pdp-tab-panel"></div>',
-                  '<div id="bstTabUso" class="bst-pdp-tab-panel"></div>',
-                '</div>',
-              '</div>',
-            '</div>',
-
-          '</div>',
-        '</div>',
-      '</div>',
     ].join('');
 
     while (el.firstChild) document.body.appendChild(el.firstChild);
@@ -1043,13 +1003,6 @@
       if (t.closest('#bstNavCart')) { renderCartLines(); openDrawer('bstCartDrawer'); return; }
       if (t.closest('#bstNavWl'))   { renderWishlistItems(); openDrawer('bstWlDrawer'); return; }
       if (t.closest('#bstNavUser')) { openAccount(); return; }
-
-      /* Product card → open detail */
-      var card = t.closest('.prod-card[data-product-id]');
-      if (card && !t.closest('.prod-card-atc') && !t.closest('.prod-var-select') && !t.closest('.prod-wl-btn')) {
-        openProductDetail(card.dataset.productId);
-        return;
-      }
 
       /* PDP gallery prev/next */
       if (t.closest('#bstPdpPrev')) {
@@ -1269,8 +1222,10 @@
           '</select>',
         ].join('') : '';
 
+        var pageUrl = 'producto?h=' + encodeURIComponent(p.handle);
         return [
-          '<div class="prod-card reveal" data-product-id="' + p.id + '">',
+          '<div class="prod-card reveal">',
+            '<a class="prod-card-link" href="' + pageUrl + '" aria-label="' + p.title + '"></a>',
             '<div class="prod-card-img-wrap">',
               img ? '<img src="' + img + '" alt="' + alt + '" loading="lazy">' : '',
               '<div class="prod-card-overlay">',
@@ -1278,7 +1233,7 @@
               '</div>',
               vid ? [
                 '<button class="prod-wl-btn" data-wl-id="' + vid + '"',
-                ' onclick="bstToggleWishlist(\'' + vid + '\',\'' + p.title.replace(/'/g, "\\'") + '\',\'' + img + '\',\'' + priceFmt + '\')"',
+                ' onclick="event.stopPropagation();bstToggleWishlist(\'' + vid + '\',\'' + p.title.replace(/'/g, "\\'") + '\',\'' + img + '\',\'' + priceFmt + '\')"',
                 ' aria-label="Lista de deseos">',
                 '<i class="ri-heart-line"></i>',
                 '</button>',
@@ -1288,7 +1243,7 @@
             '<p class="prod-card-price">' + priceFmt + '</p>',
             variantSelect,
             firstAvail
-              ? '<button class="prod-card-atc" data-vid="' + firstAvail.id + '" onclick="bstAddToCart(this.dataset.vid,1)"><i class="ri-shopping-cart-line"></i> Agregar</button>'
+              ? '<button class="prod-card-atc" data-vid="' + firstAvail.id + '" onclick="event.stopPropagation();bstAddToCart(this.dataset.vid,1)"><i class="ri-shopping-cart-line"></i> Agregar</button>'
               : '<button class="prod-card-atc disabled" disabled>Agotado</button>',
           '</div>',
         ].join('');
@@ -1335,6 +1290,10 @@
 
     if (document.querySelector('.products-grid')) {
       loadTiendaProducts();
+    }
+
+    if (document.getElementById('bstProductPage')) {
+      loadProductFromUrl();
     }
   }
 

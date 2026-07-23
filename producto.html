@@ -1,0 +1,244 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Producto — BEASTIC</title>
+  <meta name="description" content="Suplemento BEASTIC de alto rendimiento para quienes van en serio.">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#0a0a0a">
+  <link rel="icon" type="image/png" sizes="150x150" href="favicon-150x150.png">
+  <link rel="apple-touch-icon" href="favicon-150x150.png">
+  <link rel="preload" href="logotipo/Beastic-White.png" as="image">
+  <link rel="stylesheet" href="style.css?v=6">
+  <link rel="stylesheet" href="shopify-store.css?v=3">
+</head>
+<body class="inner-page">
+
+  <nav class="site-nav" id="siteNav" role="navigation" aria-label="Navegación principal">
+    <a class="nav-logo" href="index.html" aria-label="BEASTIC – Inicio">
+      <img src="logotipo/Beastic-White.png" alt="BEASTIC" class="nav-logo-img">
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="tienda.html" class="is-current">Tienda</a></li>
+      <li><a href="historia.html">Historia</a></li>
+      <li><a href="distribuidores.html">Distribuidores</a></li>
+      <li><a href="contacto.html">Contacto</a></li>
+    </ul>
+    <a class="nav-cta" href="tienda.html">Comprar</a>
+    <button class="nav-hamburger" id="navHamburger" aria-label="Abrir menú" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="nav-mobile" id="navMobile" aria-hidden="true">
+    <ul class="nav-mobile-links">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="tienda.html">Tienda</a></li>
+      <li><a href="historia.html">Historia</a></li>
+      <li><a href="distribuidores.html">Distribuidores</a></li>
+      <li><a href="contacto.html">Contacto</a></li>
+      <li><a href="tienda.html" class="nav-mobile-cta">Comprar</a></li>
+    </ul>
+  </div>
+
+  <main id="mainContent">
+
+    <!-- Hero -->
+    <section class="page-hero" style="min-height:52vh;">
+      <img id="bstPpHeroImg" class="ph-hero-img" src="" alt="" style="display:none">
+      <p class="ph-eyebrow" id="bstPpHeroEyebrow">Suplemento BEASTIC</p>
+      <h1 class="ph-title" id="bstPpHeroTitle" style="font-size:clamp(36px,5.5vw,76px);">Cargando…</h1>
+      <p class="ph-sub" style="margin-top:18px;">
+        <a href="tienda.html" class="pp-back-link"><i class="ri-arrow-left-line"></i> Volver a tienda</a>
+      </p>
+    </section>
+
+    <!-- Product detail -->
+    <section class="bst-pp-section" id="bstProductPage">
+      <div class="bst-pp-grid">
+
+        <!-- Gallery -->
+        <div class="bst-pp-gallery">
+          <div class="bst-pdp-main-wrap">
+            <img id="bstPdpMainImg" src="" alt="" class="bst-pdp-main-img">
+            <button class="bst-pdp-arr bst-pdp-arr--prev" id="bstPdpPrev" style="display:none">
+              <i class="ri-arrow-left-s-line"></i>
+            </button>
+            <button class="bst-pdp-arr bst-pdp-arr--next" id="bstPdpNext" style="display:none">
+              <i class="ri-arrow-right-s-line"></i>
+            </button>
+          </div>
+          <div class="bst-pdp-thumbs" id="bstPdpThumbs"></div>
+
+          <!-- Loading state -->
+          <div class="bst-pp-loading" id="bstPpGalleryLoading">
+            <div class="bst-pp-skel bst-pp-skel--lg"></div>
+            <div style="display:flex;gap:10px;">
+              <div class="bst-pp-skel" style="width:60px;height:60px;border-radius:6px;flex-shrink:0;"></div>
+              <div class="bst-pp-skel" style="width:60px;height:60px;border-radius:6px;flex-shrink:0;"></div>
+              <div class="bst-pp-skel" style="width:60px;height:60px;border-radius:6px;flex-shrink:0;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Info -->
+        <div class="bst-pp-info">
+          <p class="bst-pdp-tagline" id="bstPdpTagline"></p>
+          <h2 class="bst-pdp-name" id="bstPdpName" style="display:none"></h2>
+          <p class="bst-pdp-serving" id="bstPdpServing"></p>
+
+          <div class="bst-pdp-price-row">
+            <span class="bst-pdp-price" id="bstPdpPrice"></span>
+            <span class="bst-pdp-compare" id="bstPdpCompare"></span>
+          </div>
+
+          <div id="bstPdpOptions" class="bst-pdp-options-wrap"></div>
+
+          <div class="bst-pdp-actions">
+            <div class="bst-pdp-qty-wrap">
+              <button class="bst-pdp-qty-btn" id="bstPdpQtyDec"><i class="ri-subtract-line"></i></button>
+              <span class="bst-pdp-qty-val" id="bstPdpQtyVal">1</span>
+              <button class="bst-pdp-qty-btn" id="bstPdpQtyInc"><i class="ri-add-line"></i></button>
+            </div>
+            <button class="bst-pdp-atc" id="bstPdpAtc">
+              <i class="ri-shopping-cart-2-line"></i>
+              <span>Agregar al carrito</span>
+            </button>
+            <button class="bst-pdp-wl" id="bstPdpWl" aria-label="Lista de deseos">
+              <i class="ri-heart-line"></i>
+            </button>
+          </div>
+
+          <div class="bst-pdp-trust">
+            <div class="bst-trust-item"><i class="ri-truck-line"></i><span>Envío a todo México</span></div>
+            <div class="bst-trust-item"><i class="ri-shield-check-line"></i><span>Garantía de calidad</span></div>
+            <div class="bst-trust-item"><i class="ri-secure-payment-line"></i><span>Pago 100% seguro</span></div>
+          </div>
+
+          <div id="bstPdpBenefits" class="bst-pdp-benefits-list"></div>
+
+          <div class="bst-pdp-tabs-wrap">
+            <div class="bst-pdp-tab-nav">
+              <button class="bst-pdp-tab is-active" data-pdp-tab="desc">Descripción</button>
+              <button class="bst-pdp-tab" data-pdp-tab="nutri">Nutrición</button>
+              <button class="bst-pdp-tab" data-pdp-tab="uso">Cómo usar</button>
+            </div>
+            <div class="bst-pdp-tab-panels">
+              <div id="bstTabDesc" class="bst-pdp-tab-panel is-active">
+                <div class="bst-pp-loading">
+                  <div class="bst-pp-skel"></div>
+                  <div class="bst-pp-skel bst-pp-skel--sm"></div>
+                  <div class="bst-pp-skel"></div>
+                  <div class="bst-pp-skel bst-pp-skel--sm"></div>
+                </div>
+              </div>
+              <div id="bstTabNutri" class="bst-pdp-tab-panel"></div>
+              <div id="bstTabUso"   class="bst-pdp-tab-panel"></div>
+            </div>
+          </div>
+
+          <!-- Loading state for info -->
+          <div class="bst-pp-loading" id="bstPpInfoLoading">
+            <div class="bst-pp-skel" style="width:40%;height:10px;margin-bottom:4px;"></div>
+            <div class="bst-pp-skel" style="width:70%;height:28px;margin-bottom:12px;"></div>
+            <div class="bst-pp-skel" style="width:30%;height:22px;margin-bottom:20px;"></div>
+            <div class="bst-pp-skel" style="height:44px;border-radius:3px;"></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Related products -->
+    <section class="inner-section bst-related-section">
+      <p class="is-eyebrow" style="margin-bottom:28px;">Sigue explorando</p>
+      <div id="bstRelatedGrid" class="bst-related-grid"></div>
+      <a href="tienda.html" class="nav-cta" style="display:inline-block;margin-top:36px;padding:14px 32px;font-size:0.72rem;letter-spacing:0.16em;">
+        Ver toda la tienda
+      </a>
+    </section>
+
+    <footer class="site-footer" id="siteFooter">
+      <div class="footer-top">
+        <div class="footer-col">
+          <p class="footer-col-title">Navegación</p>
+          <ul class="footer-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="tienda.html">Tienda</a></li>
+            <li><a href="historia.html">Historia</a></li>
+            <li><a href="distribuidores.html">Distribuidores</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <p class="footer-col-title">Línea BEASTIC</p>
+          <ul class="footer-links">
+            <li><a href="tienda.html">Proteína Beast Pro</a></li>
+            <li><a href="tienda.html">Óxido Pre Workout</a></li>
+            <li><a href="tienda.html">Colágeno</a></li>
+            <li><a href="tienda.html">Creatina</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <p class="footer-col-title">Soporte</p>
+          <ul class="footer-links">
+            <li><a href="politicas-venta.html">Envíos</a></li>
+            <li><a href="politicas-venta.html">Devoluciones</a></li>
+            <li><a href="distribuidores.html">Distribuidores</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+          </ul>
+        </div>
+        <div class="footer-col footer-col--wide">
+          <p class="footer-col-title">BEASTIC</p>
+          <p class="footer-desc">Suplementación inspirada en la fuerza, velocidad y resistencia del reino salvaje. Creada para quienes eligen dominar su entorno.</p>
+          <div class="footer-social">
+            <a href="https://instagram.com/beasticmx" class="footer-social-link" aria-label="Instagram" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none"/></svg>
+            </a>
+            <a href="https://tiktok.com/@beasticmx" class="footer-social-link" aria-label="TikTok" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+            </a>
+            <a href="https://facebook.com/beasticmx" class="footer-social-link" aria-label="Facebook" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-wordmark-wrap">
+        <p class="footer-wordmark" id="footerWordmark">BEASTIC</p>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">©2026 BEASTIC · Todos los derechos reservados.</p>
+        <div class="footer-legal">
+          <a href="aviso-privacidad.html">Aviso de Privacidad</a>
+          <a href="politicas-venta.html">Políticas de Venta</a>
+        </div>
+      </div>
+    </footer>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="common.js?v=1"></script>
+  <script src="three.min.js"></script>
+  <script src="footer-dots.js?v=1"></script>
+  <script src="shopify-store.js?v=3"></script>
+  <script>
+    var _ppObs = new MutationObserver(function() {
+      var img = document.getElementById('bstPdpMainImg');
+      if (img && img.src && img.src !== window.location.href) {
+        var gl = document.getElementById('bstPpGalleryLoading');
+        var il = document.getElementById('bstPpInfoLoading');
+        if (gl) gl.style.display = 'none';
+        if (il) il.style.display = 'none';
+        _ppObs.disconnect();
+      }
+    });
+    _ppObs.observe(document.getElementById('bstPdpMainImg') || document.body, { attributes: true, attributeFilter: ['src'] });
+  </script>
+</body>
+</html>

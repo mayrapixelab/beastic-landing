@@ -451,8 +451,8 @@
   width: 100%;
   margin-top: 12px;
   padding: 12px;
-  background: transparent;
-  border: 1px solid rgba(255,255,255,0.22);
+  background: #0a0a0a;
+  border: 1px solid #0a0a0a;
   color: #fff;
   font-family: 'Gobold', sans-serif;
   font-size: 0.65rem;
@@ -461,12 +461,18 @@
   cursor: pointer;
   border-radius: 2px;
   transition: background 0.2s, border-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 .prod-card-atc:hover { background: #cc2020; border-color: #cc2020; }
 .prod-card-atc:disabled,
 .prod-card-atc.disabled {
-  opacity: 0.4;
+  opacity: 0.35;
   cursor: not-allowed;
+  background: #888;
+  border-color: #888;
 }
 
 /* ── Variant selector (tienda) ── */
@@ -510,6 +516,85 @@
   100% { background-position: -200% 0; }
 }
 
+/* ── Product card link overlay ── */
+.prod-card {
+  position: relative;
+}
+.prod-card-link {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+}
+.prod-card-img-wrap,
+.prod-card-atc,
+.prod-wl-btn,
+.prod-var-select,
+.prod-card-price,
+.prod-card-name {
+  position: relative;
+  z-index: 1;
+}
+.prod-card-name a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ── Product page (producto.html) ── */
+.bst-pp-section {
+  background: #0d0d0d;
+  padding: 60px 0 80px;
+}
+.bst-pp-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+.bst-pp-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: sticky;
+  top: 90px;
+  align-self: start;
+}
+.bst-pp-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-top: 8px;
+}
+.pp-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  text-decoration: none;
+  transition: color 0.18s;
+}
+.pp-back-link:hover { color: rgba(255,255,255,0.85); }
+.bst-pp-loading {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 40px 0;
+}
+.bst-pp-skel {
+  height: 18px;
+  background: linear-gradient(90deg, #1e1e1e 25%, #282828 50%, #1e1e1e 75%);
+  background-size: 200% 100%;
+  animation: bstSkel 1.4s infinite;
+  border-radius: 4px;
+}
+.bst-pp-skel--lg { height: 340px; border-radius: 8px; }
+.bst-pp-skel--sm { width: 55%; }
+
 /* ── Remixicon size in nav ── */
 .bst-nav-icon-btn i { font-size: 1.18rem; line-height: 1; }
 .bst-user-icon.is-logged i { color: #cc2020; }
@@ -544,10 +629,63 @@
   transition: background 0.18s;
 }
 .prod-card-img-wrap:hover .prod-card-view { background: rgba(204,32,32,0.25); border-color: #cc2020; }
+.prod-card-img-wrap { pointer-events: none; }
+.prod-wl-btn { pointer-events: auto; }
 .prod-card { cursor: pointer; }
 .prod-card-atc i { margin-right: 5px; font-size: 0.9em; }
 .prod-wl-btn i { font-size: 0.88rem; line-height: 1; }
 .prod-wl-btn.active i { color: #cc2020; }
+
+/* ── Related products grid ── */
+.bst-related-section { padding-bottom: 70px; }
+.bst-related-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+  text-align: left;
+}
+@media (max-width: 900px) {
+  .bst-related-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+}
+@media (max-width: 480px) {
+  .bst-related-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 12px; }
+}
+.bst-related-card {
+  display: block;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  text-decoration: none;
+  border: 1px solid rgba(0,0,0,0.07);
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+.bst-related-card:hover { transform: translateY(-4px); box-shadow: 0 8px 28px rgba(0,0,0,0.13); }
+.bst-related-card img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: contain;
+  padding: 14px;
+  background: #f6f6f6;
+  display: block;
+}
+.bst-related-name {
+  font-family: 'Gobold', sans-serif;
+  font-size: 0.66rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #0a0a0a;
+  padding: 10px 12px 3px;
+  line-height: 1.35;
+}
+.bst-related-price {
+  font-size: 0.78rem;
+  color: #cc2020;
+  font-weight: 700;
+  padding: 0 12px 12px;
+}
 
 /* ══════════════════════════════════════
    PRODUCT DETAIL MODAL (PDP)
@@ -965,6 +1103,8 @@
   .bst-pdp-gallery { border-radius: 16px 16px 0 0; padding: 24px 20px 16px; }
   .bst-pdp-main-wrap { max-width: 360px; margin: 0 auto; }
   .bst-pdp-info { padding: 20px 20px 32px; }
+  .bst-pp-grid { grid-template-columns: 1fr; gap: 32px; padding: 0 20px; }
+  .bst-pp-gallery { position: static; }
 }
 @media (max-width: 680px) {
   .bst-pdp-trust { flex-direction: column; }
