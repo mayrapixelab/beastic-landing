@@ -456,6 +456,46 @@ void main(){
     new LiquidEffect(canvas, container, src, { resolution: 6, cursorSize: 50, intensity: 45 });
   }
 
+  // For block images in flow layout — wraps img in a sized div to preserve layout
+  function initBlockImg(img) {
+    if (!img || img.tagName !== 'IMG') return;
+    var src = img.src || img.getAttribute('src');
+    if (!src) return;
+
+    function setup() {
+      var w = img.clientWidth, h = img.clientHeight;
+      if (w < 4 || h < 4) { setTimeout(setup, 50); return; }
+
+      var wrapper = document.createElement('div');
+      // Preserve computed visual styles before replacing
+      var cs = window.getComputedStyle(img);
+      var wrapCss = 'position:relative;overflow:hidden;';
+      if (cs.borderRadius && cs.borderRadius !== '0px') wrapCss += 'border-radius:' + cs.borderRadius + ';';
+      if (cs.filter && cs.filter !== 'none') wrapCss += 'filter:' + cs.filter + ';';
+      if (cs.margin && cs.margin !== '0px') wrapCss += 'margin:' + cs.margin + ';';
+      if (cs.display === 'block') wrapCss += 'display:block;';
+
+      // Full-width images: use aspect-ratio so they stay responsive
+      if (w >= img.parentElement.clientWidth * 0.9 && img.naturalWidth && img.naturalHeight) {
+        wrapCss += 'width:100%;aspect-ratio:' + img.naturalWidth + '/' + img.naturalHeight + ';';
+      } else {
+        // Auto-width images: lock to current pixel size, cap at 100%
+        wrapCss += 'width:' + w + 'px;height:' + h + 'px;max-width:100%;';
+      }
+
+      wrapper.style.cssText = wrapCss;
+
+      var canvas = document.createElement('canvas');
+      canvas.style.cssText = 'display:block;width:100%;height:100%;';
+      wrapper.appendChild(canvas);
+      img.parentElement.replaceChild(wrapper, img);
+      new LiquidEffect(canvas, wrapper, src, { resolution: 6, cursorSize: 50, intensity: 45 });
+    }
+
+    if (img.complete && img.naturalWidth > 0) setTimeout(setup, 50);
+    else img.addEventListener('load', function() { setTimeout(setup, 50); });
+  }
+
   /* ─── Auto-initialize ─── */
   function initAll() {
     // Skip on mobile — ph-hero-img is display:none anyway
@@ -466,6 +506,9 @@ void main(){
 
     // Split section images — inside flex container, can replace directly
     document.querySelectorAll('.split-right img').forEach(initInContainer);
+
+    // Block images in flow layout — section-img and CTA images
+    document.querySelectorAll('.section-img, .inner-cta-img').forEach(initBlockImg);
   }
 
   if (document.readyState === 'loading') {
