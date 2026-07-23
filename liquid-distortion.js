@@ -179,6 +179,7 @@ void main(){
       gl.attachShader(p, mkShader(fs, gl.FRAGMENT_SHADER));
       gl.bindAttribLocation(p, 0, 'a_position');
       gl.linkProgram(p);
+      if (!gl.getProgramParameter(p, gl.LINK_STATUS)) return null;
       var u = {}, n = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS);
       for (var i = 0; i < n; i++) {
         var a = gl.getActiveUniform(p, i);
@@ -233,6 +234,7 @@ void main(){
     var GR = mkProg(VERT, FRAG_GRAD_SUB);
     var AV = mkProg(VERT, FRAG_ADVECT);
     var OU = mkProg(VERT, FRAG_OUTPUT);
+    if (!PR || !DR || !PS || !GR || !AV || !OU) return false;
 
     function initFBOs() {
       oc   = mkDFBO(res.w, res.h);
@@ -423,7 +425,7 @@ void main(){
       canvas.style.cssText = 'display:block;width:100%;height:100%;pointer-events:auto;';
       wrap.appendChild(canvas);
 
-      var ok = new LiquidEffect(canvas, wrap, src, { resolution: 6, cursorSize: 50, intensity: 45 });
+      var ok = LiquidEffect(canvas, wrap, src, { resolution: 6, cursorSize: 50, intensity: 45 });
       if (ok) {
         img.style.visibility = 'hidden';
       } else {
@@ -460,7 +462,7 @@ void main(){
     canvas.style.cssText = 'display:block;width:100%;height:100%;min-height:inherit;pointer-events:auto;';
     container.replaceChild(canvas, img);
 
-    var ok = new LiquidEffect(canvas, container, src, { resolution: 6, cursorSize: 50, intensity: 45 });
+    var ok = LiquidEffect(canvas, container, src, { resolution: 6, cursorSize: 50, intensity: 45 });
     if (!ok) container.replaceChild(img, canvas);
   }
 
@@ -498,7 +500,7 @@ void main(){
       wrapper.appendChild(canvas);
       var par = img.parentElement;
       par.replaceChild(wrapper, img);
-      var ok = new LiquidEffect(canvas, wrapper, src, { resolution: 6, cursorSize: 50, intensity: 45 });
+      var ok = LiquidEffect(canvas, wrapper, src, { resolution: 6, cursorSize: 50, intensity: 45 });
       if (!ok) par.replaceChild(img, wrapper);
     }
 
