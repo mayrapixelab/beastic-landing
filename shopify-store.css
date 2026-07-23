@@ -636,6 +636,50 @@
 .prod-wl-btn i { font-size: 0.88rem; line-height: 1; }
 .prod-wl-btn.active i { color: #cc2020; }
 
+/* ── Thank-you page steps ── */
+.ty-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.ty-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 22px 0;
+  border-bottom: 1px solid rgba(10,10,10,0.08);
+}
+.ty-step:last-child { border-bottom: none; }
+.ty-step-icon {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #cc2020;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+}
+.ty-step-icon--pending {
+  background: rgba(10,10,10,0.07);
+  color: rgba(10,10,10,0.35);
+}
+.ty-step-title {
+  font-family: 'Gobold', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #0a0a0a;
+  margin-bottom: 4px;
+}
+.ty-step-desc {
+  font-size: 0.82rem;
+  color: rgba(10,10,10,0.58);
+  line-height: 1.55;
+}
+
 /* ── Related products grid ── */
 .bst-related-section { padding-bottom: 70px; }
 .bst-related-grid {
