@@ -1840,6 +1840,15 @@ body.inner-page { background: #f0f0ee; color: #0a0a0a; }
 /* Imagen en CTA center */
 .inner-cta-img { display: block; max-height: 320px; width: auto; margin: 0 auto 36px; filter: drop-shadow(0 24px 60px rgba(0,0,0,0.6)); }
 
+/* Split section — text left, image fills right edge-to-edge */
+.split-section { display: grid; grid-template-columns: 48fr 52fr; min-height: 60vh; overflow: hidden; }
+.split-left { padding: 10vh 5vw 10vh 7vw; display: flex; flex-direction: column; justify-content: center; background: #f0f0ee; }
+.split-right { overflow: hidden; }
+.split-right img, .split-right canvas { width: 100%; height: 100%; min-height: 420px; object-fit: cover; object-position: center; display: block; }
+
+/* Benefit icon */
+.benefit-icon { display: block; width: 54px; height: 54px; object-fit: contain; margin-bottom: 14px; }
+
 /* Responsive inner pages */
 @media (max-width: 960px) {
   .value-grid        { grid-template-columns: repeat(2, 1fr); }
@@ -1862,6 +1871,9 @@ body.inner-page { background: #f0f0ee; color: #0a0a0a; }
   .ph-hero-img       { display: none; }
   .inner-grid-3      { grid-template-columns: 1fr; }
   .inner-cta-img     { max-height: 220px; }
+  .split-section     { grid-template-columns: 1fr; }
+  .split-left        { padding: 8vh 6vw; }
+  .split-right img   { min-height: 260px; }
 }
 @media (max-width: 480px) {
   .products-grid     { grid-template-columns: 1fr; }
