@@ -106,14 +106,14 @@ float edge_alpha(vec2 uv,float w){
   a*=smoothstep(0.,w,uv.y)*smoothstep(1.,1.-w,uv.y);
   return a;
 }
-vec3 sample_img(vec2 uv){
+vec4 sample_img(vec2 uv){
   vec2 c=clamp(uv,0.,1.);
-  vec3 base=texture2D(u_text_texture,vec2(c.x,1.-c.y)).rgb;
+  vec4 base=texture2D(u_text_texture,vec2(c.x,1.-c.y));
   float oob=max(max(step(uv.y,0.),step(1.,uv.y)),max(step(uv.x,0.),step(1.,uv.x)));
   if(oob>0.){
-    float d=.002; vec3 s=vec3(0.);
+    float d=.002; vec4 s=vec4(0.);
     for(int dy=-1;dy<=1;dy++) for(int dx=-1;dx<=1;dx++)
-      s+=texture2D(u_text_texture,vec2(clamp(c.x+float(dx)*d,0.,1.),1.-clamp(c.y+float(dy)*d,0.,1.))).rgb;
+      s+=texture2D(u_text_texture,vec2(clamp(c.x+float(dx)*d,0.,1.),1.-clamp(c.y+float(dy)*d,0.,1.)));
     base=s/9.;
   }
   return base;
@@ -124,9 +124,9 @@ void main(){
   vec2 img_uv=get_img_uv(); img_uv-=u_disturb_power*normalize(vel)*offset;
   img_uv-=u_disturb_power*normalize(vel)*offset;
   vec2 frame_uv=get_frame_uv(); frame_uv-=u_disturb_power*normalize(vel)*offset;
-  vec3 img=sample_img(img_uv);
-  float opacity=edge_alpha(frame_uv,.002);
-  gl_FragColor=vec4(img*opacity,opacity);
+  vec4 img=sample_img(img_uv);
+  float opacity=edge_alpha(frame_uv,.002)*img.a;
+  gl_FragColor=vec4(img.rgb*opacity,opacity);
 }`;
 
   /* ─── WebGL Effect ─── */
