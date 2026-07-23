@@ -8,7 +8,7 @@
   var VERT = `
 precision highp float;
 attribute vec2 a_position;
-varying vec2 vUv, vL, vR, vT, vB;
+varying highp vec2 vUv, vL, vR, vT, vB;
 uniform vec2 u_texel;
 void main(){
   vUv=.5*(a_position+1.);
@@ -137,8 +137,8 @@ void main(){
     var innerScale   = 5 / 6;
 
     var gl = canvas.getContext('webgl', { alpha: true });
-    if (!gl) return;
-    gl.getExtension('OES_texture_float');
+    if (!gl) return false;
+    if (!gl.getExtension('OES_texture_float')) return false;
     gl.getExtension('OES_texture_float_linear');
     gl.clearColor(0, 0, 0, 0);
 
@@ -209,6 +209,7 @@ void main(){
       var fbo = gl.createFramebuffer();
       gl.bindFramebuffer(gl.FRAMEBUFFER, fbo);
       gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, tex, 0);
+      if (gl.checkFramebufferStatus(gl.FRAMEBUFFER) !== gl.FRAMEBUFFER_COMPLETE) return null;
       gl.viewport(0, 0, w, h);
       gl.clear(gl.COLOR_BUFFER_BIT);
       return {
@@ -238,6 +239,7 @@ void main(){
       vel  = mkDFBO(res.w, res.h);
       dv   =  mkFBO(res.w, res.h);
       pres = mkDFBO(res.w, res.h);
+      return dv && oc.r() && vel.r() && pres.r();
     }
 
     function resizeCanvas() {
@@ -384,9 +386,11 @@ void main(){
     }
 
     resizeCanvas();
+    if (!dv) return false;
     setupEvents();
     loadImg(imageSrc);
     render();
+    return true;
   }
 
   /* ─── Init helpers ─── */
@@ -419,9 +423,12 @@ void main(){
       canvas.style.cssText = 'display:block;width:100%;height:100%;pointer-events:auto;';
       wrap.appendChild(canvas);
 
-      img.style.visibility = 'hidden';
-
-      new LiquidEffect(canvas, wrap, src, { resolution: 6, cursorSize: 50, intensity: 45 });
+      var ok = new LiquidEffect(canvas, wrap, src, { resolution: 6, cursorSize: 50, intensity: 45 });
+      if (ok) {
+        img.style.visibility = 'hidden';
+      } else {
+        if (wrap.parentNode) wrap.parentNode.removeChild(wrap);
+      }
 
       // Sync wrapper position on resize
       window.addEventListener('resize', function() {
@@ -453,7 +460,8 @@ void main(){
     canvas.style.cssText = 'display:block;width:100%;height:100%;min-height:inherit;pointer-events:auto;';
     container.replaceChild(canvas, img);
 
-    new LiquidEffect(canvas, container, src, { resolution: 6, cursorSize: 50, intensity: 45 });
+    var ok = new LiquidEffect(canvas, container, src, { resolution: 6, cursorSize: 50, intensity: 45 });
+    if (!ok) container.replaceChild(img, canvas);
   }
 
   // For block images in flow layout — wraps img in a sized div to preserve layout
@@ -488,8 +496,10 @@ void main(){
       var canvas = document.createElement('canvas');
       canvas.style.cssText = 'display:block;width:100%;height:100%;';
       wrapper.appendChild(canvas);
-      img.parentElement.replaceChild(wrapper, img);
-      new LiquidEffect(canvas, wrapper, src, { resolution: 6, cursorSize: 50, intensity: 45 });
+      var par = img.parentElement;
+      par.replaceChild(wrapper, img);
+      var ok = new LiquidEffect(canvas, wrapper, src, { resolution: 6, cursorSize: 50, intensity: 45 });
+      if (!ok) par.replaceChild(img, wrapper);
     }
 
     if (img.complete && img.naturalWidth > 0) setTimeout(setup, 50);
